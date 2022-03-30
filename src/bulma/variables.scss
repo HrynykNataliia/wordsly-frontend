@@ -1,0 +1,26 @@
+$spacing-values: (
+  "0": 0,
+  "1": 0.25rem,
+  "2": 0.5rem,
+  "3": 0.75rem,
+  "4": 1rem,
+  "5": 1.5rem,
+  "6": 3rem,
+  "7": 4rem,
+  "8": 5rem,
+  "9": 6rem);
+
+$input-color: $white;
+$input-background-color: $graphite;
+$input-border-color: $primary-dark;
+$input-focus-border-color: $primary-dark;
+$input-focus-box-shadow-color: rgba($primary-dark, 0.25);
+$input-arrow: $primary-dark;
+$input-hover-color: $white;
+
+$button-color: $white;
+$button-background-color: $primary-dark;
+$button-border-color: $primary-dark;
+$button-focus-color: $white;
+$button-focus-border-color: transparent;
+$button-focus-box-shadow-color: rgba($primary-dark, 0.25);
