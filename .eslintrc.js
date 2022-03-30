@@ -4,6 +4,8 @@ module.exports = {
     'plugin:react/recommended',
   ],
   rules: {
+    'linebreak-style': 0,
+
     // React
     'react/prop-types': 0,
     'react/self-closing-comp': 0,
@@ -20,6 +22,8 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/semi': ['error'],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
   },
   parser: '@typescript-eslint/parser',
   plugins: [
