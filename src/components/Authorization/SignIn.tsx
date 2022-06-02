@@ -1,12 +1,16 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { signIn } from '../../api/authorization';
 import { emailTest, passwordTest } from '../../RegExps';
+import { userActions } from '../../store/user';
 import { setTokens } from '../../tokenHandler';
 import './Authorization.scss';
 
 export const SignIn: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hasPasswordError, setPasswordError] = useState(false);
@@ -36,6 +40,8 @@ export const SignIn: React.FC = () => {
     const tokens = await signIn(email, password);
 
     setTokens(tokens);
+    dispatch(userActions.loadUser());
+    navigate('/profile');
   };
 
   const validateEmail = () => {

@@ -1,12 +1,16 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { signUp } from '../../api/authorization';
 import { emailTest, passwordTest } from '../../RegExps';
+import { userActions } from '../../store/user';
 import { setTokens } from '../../tokenHandler';
 import './Authorization.scss';
 
 export const SignUp: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
@@ -63,6 +67,8 @@ export const SignUp: React.FC = () => {
     });
 
     setTokens(tokens);
+    dispatch(userActions.loadUser());
+    navigate('/profile');
   };
 
   const validateEmail = () => {

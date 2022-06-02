@@ -1,5 +1,6 @@
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { refresh } from './api/authorization';
+import { Tokens } from './types';
 
 function isJwtExpired(token: string) {
   const { exp } = jwtDecode<JwtPayload>(token);
@@ -15,6 +16,10 @@ function isJwtExpired(token: string) {
 export const setTokens = (tokens: Tokens) => {
   localStorage.setItem('authorizationToken', tokens.authorizationToken);
   localStorage.setItem('refreshToken', tokens.refreshToken);
+};
+
+export const clearLocalStorage = () => {
+  localStorage.clear();
 };
 
 export const getRefreshToken = (): string | null => {

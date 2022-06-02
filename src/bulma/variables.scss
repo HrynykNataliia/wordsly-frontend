@@ -24,3 +24,9 @@ $button-border-color: $primary-dark;
 $button-focus-color: $white;
 $button-focus-border-color: transparent;
 $button-focus-box-shadow-color: rgba($primary-dark, 0.25);
+$button-disabled-background-color: $primary-dark;
+$button-disabled-border-color: $primary-dark;
+
+$dropdown-item-hover-background-color: $primary-dark;
+$dropdown-item-hover-color: $white;
+$dropdown-divider-background-color: rgba($primary-dark, 0.2);

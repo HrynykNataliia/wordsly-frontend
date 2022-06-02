@@ -1,6 +1,7 @@
 import { AnyAction, Dispatch } from 'redux';
 import { getUser } from '../api/user';
 import { getRefreshToken } from '../tokenHandler';
+import { User, State } from '../types';
 
 enum ActionTypes {
   SetUser = 'user/set',

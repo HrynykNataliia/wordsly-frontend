@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getRefreshToken } from '../../tokenHandler';
+import { Menu } from '../Menu/Menu';
 import './Header.scss';
 
 export const Header: React.FC = () => {
+  const refreshToken = getRefreshToken();
+
   return (
     <header className="header">
       <Link
@@ -12,12 +16,16 @@ export const Header: React.FC = () => {
         Wordsly
       </Link>
 
-      <Link
-        to="/sign-in"
-        className="header__sign-in is-size-4"
-      >
-        Sign in
-      </Link>
+      {refreshToken ? (
+        <Menu />
+      ) : (
+        <Link
+          to="/sign-in"
+          className="header__sign-in is-size-4"
+        >
+          Sign in
+        </Link>
+      )}
     </header>
   );
 };

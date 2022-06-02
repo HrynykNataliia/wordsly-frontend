@@ -1,0 +1,90 @@
+.user-profile {
+  &__header {
+    margin-bottom: 20px;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 1072px;
+    margin: auto;
+  }
+
+  &__projects-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 148, 126, 0.1);
+    gap: 55px;
+    padding: 0 5px 15px;
+    border-radius: 30px;
+    margin-bottom: 30px;
+  }
+
+  &__projects-info-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__personal-info-title {
+    margin-bottom: 25px;
+  }
+
+  &__personal-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px 128px;
+    margin-bottom: 30px;
+  }
+
+  &__personal-info-input {
+    width: 472px;
+    margin-top: 10px;
+  }
+
+  &__button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 48px;
+    margin-bottom: 20px;
+  }
+
+  &__cancel {
+    width: 191px;
+    background-color: rgba(23, 23, 23, 1);
+    border: 1px solid rgba(0, 148, 126, 1);
+
+    &:hover {
+      background-color: rgba(0, 148, 126, 0.1);
+      color: rgb(0, 148, 126);
+      border-color: transparent;
+    }
+
+    &:active {
+      background-color: transparent;
+    }
+  }
+
+  &__update {
+    width: 191px;
+
+    &:hover {
+      background-color: rgba(0, 148, 126, 0.1);
+      color: rgb(0, 148, 126);
+      border-color: transparent;
+    }
+
+    &:active {
+      background-color: transparent;
+    }
+  }
+
+
+  &__error {
+    padding: 0 1rem;
+    width: 472px;
+  }
+}
