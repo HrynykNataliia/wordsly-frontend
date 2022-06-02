@@ -8,6 +8,8 @@ import {
   updatePassword,
 } from '../../api/user';
 import { emailTest, passwordTest } from '../../RegExps';
+import { languagesSelectors } from '../../store/language';
+import { subjectsSelectors } from '../../store/subject';
 import { userActions, userSelectors } from '../../store/user';
 import { UserProjects } from '../../types';
 import { Header } from '../Header/Header';
@@ -16,6 +18,8 @@ import '../UserProfile/UserProfile.scss';
 export const TranslatorProfile: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelectors.getUser);
+  const subjects = useSelector(subjectsSelectors.getSubjects);
+  const languages = useSelector(languagesSelectors.getLanguages);
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -152,6 +156,11 @@ export const TranslatorProfile: React.FC = () => {
     setNewPasswordError(false);
     setWrongPassword(false);
   };
+
+  // eslint-disable-next-line no-console
+  console.log('subjects:', subjects);
+  // eslint-disable-next-line no-console
+  console.log('languages', languages);
 
   return (
     <div>

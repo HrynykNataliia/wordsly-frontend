@@ -105,7 +105,11 @@ export const Menu: React.FC = () => {
             </Link>
             <hr className="dropdown-divider" />
 
-            <Link to="/" className="menu__item dropdown-item">
+            <Link
+              to="/"
+              className="menu__item dropdown-item"
+              onClick={handleLogOut}
+            >
               Log out
             </Link>
           </div>
