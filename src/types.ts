@@ -43,9 +43,17 @@ export interface PersonalInfo {
 export interface State {
   user: User | null;
   subjects: Subject[];
+  languages: Language[];
 }
 
 export interface Subject {
   id: number;
   subject: string;
+}
+
+export interface Language {
+  id: number;
+  language: string;
+  languageCode: string;
+  isActive: boolean;
 }
