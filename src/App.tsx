@@ -8,6 +8,7 @@ import { HomePage } from './components/HomePage/HomePage';
 import { TranslatorProfile } from './components/TranslatorProfile/TranslatorProfile';
 import { UserProfile } from './components/UserProfile/UserProfile';
 import { AccountType } from './enums';
+import { languagesActions } from './store/language';
 import { subjectsActions } from './store/subject';
 import { userActions, userSelectors } from './store/user';
 
@@ -18,6 +19,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     dispatch(userActions.loadUser());
     dispatch(subjectsActions.loadSubjects());
+    dispatch(languagesActions.loadLanguages());
   }, []);
 
   return (
