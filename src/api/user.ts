@@ -1,4 +1,10 @@
-import { PersonalInfo, User, UserProjects } from '../types';
+import {
+  LanguagePair,
+  PersonalInfo,
+  TranslatorInfo,
+  User,
+  UserProjects,
+} from '../types';
 import { adminApi } from './apis';
 import { request } from './baseWithAuthorization';
 
@@ -61,6 +67,26 @@ export const updatePassword = (oldPassword: string, newPassword: string): Promis
     body: JSON.stringify({
       oldPassword,
       newPassword,
+    }),
+  });
+};
+
+export const getTranslatorInfo = (): Promise<TranslatorInfo> => {
+  return request(`${adminApi}/api/Users/translator-info`);
+};
+
+export const updateTranslatorInfo = (
+  subjectIds: number[],
+  languagesPairs: LanguagePair[],
+): Promise<TranslatorInfo> => {
+  return request(`${adminApi}/api/Users/translator-info`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      subjectIds,
+      languagesPairs,
     }),
   });
 };

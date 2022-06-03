@@ -69,3 +69,13 @@ export interface Quota {
   isDetected: boolean;
   fileName: string | undefined;
 }
+
+export interface LanguagePair {
+  sourceLanguageId: number;
+  outputLanguageId: number;
+}
+
+export interface TranslatorInfo {
+  subjectIds: number[];
+  languagesPairs: LanguagePair[];
+}
