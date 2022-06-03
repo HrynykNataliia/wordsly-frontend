@@ -75,7 +75,7 @@ export const UserProfile: React.FC = () => {
       dispatch(userActions.setUser(newUser));
     }
 
-    if (password || newPassword) {
+    if (password && newPassword) {
       try {
         await updatePassword(password, newPassword);
       } catch (e) {

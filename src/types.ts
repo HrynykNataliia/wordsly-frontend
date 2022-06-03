@@ -57,3 +57,13 @@ export interface Language {
   languageCode: string;
   isActive: boolean;
 }
+
+export interface LanguagePair {
+  sourceLanguageId: number;
+  outputLanguageId: number;
+}
+
+export interface TranslatorInfo {
+  subjectIds: number[];
+  languagesPairs: LanguagePair[];
+}
