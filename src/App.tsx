@@ -5,6 +5,7 @@ import './App.scss';
 import { SignIn } from './components/Authorization/SignIn';
 import { SignUp } from './components/Authorization/SignUp';
 import { HomePage } from './components/HomePage/HomePage';
+import { Quote } from './components/Qoute/Quote';
 import { TranslatorProfile } from './components/TranslatorProfile/TranslatorProfile';
 import { UserProfile } from './components/UserProfile/UserProfile';
 import { AccountType } from './enums';
@@ -28,6 +29,7 @@ export const App: React.FC = () => {
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/profile" element={user?.accountType === AccountType.User ? <UserProfile /> : <TranslatorProfile />} />
+      <Route path="/quote" element={<Quote />} />
     </Routes>
   );
 };

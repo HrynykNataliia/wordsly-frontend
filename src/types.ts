@@ -57,3 +57,15 @@ export interface Language {
   languageCode: string;
   isActive: boolean;
 }
+
+export interface Quota {
+  id: string;
+  sourceLanguage: Language;
+  targetLanguages: Language[];
+  subject: Subject;
+  wordsCount: number | undefined;
+  price: number | undefined;
+  isCounting: boolean;
+  isDetected: boolean;
+  fileName: string | undefined;
+}
