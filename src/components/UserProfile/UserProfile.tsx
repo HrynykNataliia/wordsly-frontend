@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { saveProject } from '../../api/quota';
 import {
   getPersonalInfo,
   getProjectsInfo,
@@ -35,6 +36,22 @@ export const UserProfile: React.FC = () => {
   const [hasEmailError, setEmailError] = useState(false);
   const [hasFirstnameError, setFirstnameError] = useState(false);
   const [hasLastnameError, setLastnameError] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const quoteId = sessionStorage.getItem('quote');
+      const preferences = sessionStorage.getItem('preferences');
+
+      if (quoteId) {
+        try {
+          await saveProject(quoteId, preferences);
+        } finally {
+          sessionStorage.removeItem('quote');
+          sessionStorage.removeItem('preferences');
+        }
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {

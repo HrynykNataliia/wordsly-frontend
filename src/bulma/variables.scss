@@ -17,6 +17,7 @@ $input-focus-border-color: $primary-dark;
 $input-focus-box-shadow-color: rgba($primary-dark, 0.25);
 $input-arrow: $primary-dark;
 $input-hover-color: $white;
+$input-radius: 2rem;
 
 $button-color: $white;
 $button-background-color: $primary-dark;
@@ -47,3 +48,7 @@ $table-color: $white;
 $table-head-cell-color: $white;
 $table-background-color: rgba($primary-dark, 0.1);
 $table-row-hover-background-color: $primary-dark;
+
+$message-background-color: rgba($primary-dark, 0.2);
+$message-body-border-color: $primary-dark;
+$message-header-background-color: $primary-dark;

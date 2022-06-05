@@ -14,7 +14,7 @@ export const initCookies = async () : Promise<string> => {
   return quote || '';
 };
 
-export const sendFileForTranslating = async (file: File, quoteId: string) : Promise<void> => {
+export const sendFileForTranslating = (file: File, quoteId: string) : Promise<void> => {
   const body = new FormData();
 
   body.append('file', file);
@@ -23,5 +23,21 @@ export const sendFileForTranslating = async (file: File, quoteId: string) : Prom
   return request(`${clientApi}/api/Quota/source-file`, {
     method: 'POST',
     body,
+  });
+};
+
+export const saveProject = (
+  quoteId: string,
+  preferences: string | undefined | null,
+) : Promise<void> => {
+  return request(`${clientApi}/api/Quota/create-project`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      quoteId,
+      preferences,
+    }),
   });
 };

@@ -5,6 +5,7 @@ import './App.scss';
 import { SignIn } from './components/Authorization/SignIn';
 import { SignUp } from './components/Authorization/SignUp';
 import { HomePage } from './components/HomePage/HomePage';
+import { Project } from './components/Project/Project';
 import { Quote } from './components/Qoute/Quote';
 import { TranslatorProfile } from './components/TranslatorProfile/TranslatorProfile';
 import { UserProfile } from './components/UserProfile/UserProfile';
@@ -30,6 +31,7 @@ export const App: React.FC = () => {
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/profile" element={user?.accountType === AccountType.User ? <UserProfile /> : <TranslatorProfile />} />
       <Route path="/quote" element={<Quote />} />
+      <Route path="/project/:id/:lang" element={<Project />} />
     </Routes>
   );
 };

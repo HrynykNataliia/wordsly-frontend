@@ -2,6 +2,8 @@ import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { refresh } from './api/authorization';
 import { Tokens } from './types';
 
+let isRefreshing = false;
+
 function isJwtExpired(token: string) {
   const { exp } = jwtDecode<JwtPayload>(token);
   const currentTime = new Date().getTime() / 1000;
@@ -34,13 +36,16 @@ export const getAuthorizationToken = async (): Promise<string | null> => {
     return null;
   }
 
-  if (isJwtExpired(authorizationToken)) {
+  if (isJwtExpired(authorizationToken) && !isRefreshing) {
+    isRefreshing = true;
+
     const newTokens = await refresh({
       authorizationToken,
       refreshToken,
     });
 
     setTokens(newTokens);
+    isRefreshing = false;
 
     return newTokens.authorizationToken;
   }

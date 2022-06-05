@@ -73,7 +73,7 @@ export const Menu: React.FC = () => {
             </Link>
             <hr className="dropdown-divider" />
 
-            <Link to="/" className="menu__item dropdown-item">
+            <Link to="/quote" className="menu__item dropdown-item">
               New project
             </Link>
             <hr className="dropdown-divider" />

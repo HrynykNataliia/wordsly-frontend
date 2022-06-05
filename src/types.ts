@@ -79,3 +79,30 @@ export interface TranslatorInfo {
   subjectIds: number[];
   languagesPairs: LanguagePair[];
 }
+
+export interface StringModel {
+  id: number;
+  originalString: string;
+  translatedString: string;
+  transaltorId: number;
+  isEditing: boolean;
+}
+
+export interface PaginationResult<T> {
+  currentPage: number;
+  pagesCount: number;
+  result: T[];
+}
+
+export interface ProjectInfo {
+  preferences: string;
+  projectName: string;
+  status: number;
+}
+
+export interface StringComment {
+  id: number;
+  role: AccountType;
+  userName: string;
+  comment: string;
+}
