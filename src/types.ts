@@ -67,3 +67,16 @@ export interface TranslatorInfo {
   subjectIds: number[];
   languagesPairs: LanguagePair[];
 }
+
+export interface Project {
+  id: number;
+  fileName: string;
+  sourceLanguage: Language;
+  targetLanguage: Language;
+  subject: Subject;
+  wordsCount: number;
+  transaltedWordsCount: number;
+  price: number;
+  startDate: string;
+  endDate: string;
+}

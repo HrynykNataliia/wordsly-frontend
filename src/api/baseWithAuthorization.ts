@@ -1,7 +1,8 @@
 import { getAuthorizationToken } from '../tokenHandler';
 import { request as baseRequest } from './base';
 
-const getAuthorizationOptions = async (options?: RequestInit): Promise<RequestInit | undefined> => {
+export const getAuthorizationOptions = async (options?: RequestInit)
+: Promise<RequestInit | undefined> => {
   const token = await getAuthorizationToken();
 
   if (!token) {

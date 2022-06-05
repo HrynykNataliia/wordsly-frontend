@@ -3,3 +3,9 @@ export enum AccountType {
   Translator = 2,
   Admin = 3,
 }
+
+export enum ProjectStatus {
+  Unpaid,
+  Active,
+  Completed,
+}
