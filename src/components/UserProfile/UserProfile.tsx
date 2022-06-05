@@ -45,6 +45,9 @@ export const UserProfile: React.FC = () => {
       if (quoteId) {
         try {
           await saveProject(quoteId, preferences);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.log(e);
         } finally {
           sessionStorage.removeItem('quote');
           sessionStorage.removeItem('preferences');

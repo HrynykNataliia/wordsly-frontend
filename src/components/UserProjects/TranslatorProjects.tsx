@@ -99,7 +99,7 @@ export const TranslatorProjects: React.FC = () => {
                 )}
                 <td>
                   <Link
-                    to="/"
+                    to={`/project/${project.id}/${project.targetLanguage.id}`}
                     className="projects-page__table-button"
                   >
                     View

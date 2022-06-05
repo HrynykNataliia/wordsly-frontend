@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   HttpTransportType,
   HubConnection,
@@ -28,6 +28,7 @@ import { AccountType } from '../../enums';
 import { languagesSelectors } from '../../store/language';
 
 export const Project : React.FC = () => {
+  const navigate = useNavigate();
   const user = useSelector(userSelectors.getUser);
   const languages = useSelector(languagesSelectors.getLanguages);
   const isCustomer = user?.accountType === AccountType.User;
@@ -254,6 +255,7 @@ export const Project : React.FC = () => {
   const handleApprove = async () => {
     if (id && lang) {
       await approveProject(+id, +lang);
+      navigate('/projects/my');
     }
   };
 
@@ -375,7 +377,7 @@ export const Project : React.FC = () => {
               <span>{`${projectInfo?.projectName} To ${language}`}</span>
             </div>
             {!!projectInfo?.preferences && (
-              <div className="message-body">
+              <div className="message-body has-text-white-ter">
                 {projectInfo?.preferences}
               </div>
             )}

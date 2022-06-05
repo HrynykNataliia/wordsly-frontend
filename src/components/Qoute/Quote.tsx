@@ -172,6 +172,7 @@ export const Quote: React.FC = () => {
                   className="file-input is-rounded"
                   type="file"
                   name="resume"
+                  accept=".rtf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .html, .xml, .txt, .srt, .sbv, .odt, .ods, .odp"
                 />
 
                 <span className="file-cta">

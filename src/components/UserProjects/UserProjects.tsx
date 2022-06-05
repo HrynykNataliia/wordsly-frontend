@@ -153,7 +153,7 @@ export const UserProjects: React.FC = () => {
                     </a>
                   ) : (
                     <Link
-                      to="/"
+                      to={`/project/${project.id}/${project.targetLanguage.id}`}
                       className="projects-page__table-button"
                     >
                       View
