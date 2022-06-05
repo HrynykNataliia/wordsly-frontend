@@ -1,5 +1,4 @@
-import { AnyAction, Dispatch } from 'redux';
-import { getSubjects } from '../api/subject';
+import { AnyAction } from 'redux';
 import { State, Subject } from '../types';
 
 enum ActionTypes {
@@ -11,12 +10,6 @@ export const subjectsActions = {
     type: ActionTypes.SetSubjects,
     value: subjects,
   }),
-
-  loadSubjects: () => async (dispatch: Dispatch<AnyAction>) => {
-    const subjects = await getSubjects();
-
-    dispatch(subjectsActions.setSubjects(subjects));
-  },
 };
 
 export const subjectsSelectors = {

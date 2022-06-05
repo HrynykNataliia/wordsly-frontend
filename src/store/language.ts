@@ -1,5 +1,4 @@
-import { AnyAction, Dispatch } from 'redux';
-import { getLanguages } from '../api/language';
+import { AnyAction } from 'redux';
 import { Language, State } from '../types';
 
 enum ActionTypes {
@@ -11,12 +10,6 @@ export const languagesActions = {
     type: ActionTypes.SetLanguages,
     value: languages,
   }),
-
-  loadLanguages: () => async (dispatch: Dispatch<AnyAction>) => {
-    const languages = await getLanguages();
-
-    dispatch(languagesActions.setLanguages(languages));
-  },
 };
 
 export const languagesSelectors = {

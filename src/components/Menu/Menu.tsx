@@ -68,7 +68,7 @@ export const Menu: React.FC = () => {
             </Link>
             <hr className="dropdown-divider" />
 
-            <Link to="/" className="menu__item dropdown-item">
+            <Link to="/projects/my" className="menu__item dropdown-item">
               My projects
             </Link>
             <hr className="dropdown-divider" />
@@ -95,12 +95,12 @@ export const Menu: React.FC = () => {
             </Link>
             <hr className="dropdown-divider" />
 
-            <Link to="/" className="menu__item dropdown-item">
+            <Link to="/projects/my" className="menu__item dropdown-item">
               My projects
             </Link>
             <hr className="dropdown-divider" />
 
-            <Link to="/" className="menu__item dropdown-item">
+            <Link to="/projects" className="menu__item dropdown-item">
               Available projects
             </Link>
             <hr className="dropdown-divider" />

@@ -292,14 +292,14 @@ export const UserProfile: React.FC = () => {
           </label>
 
           <label
-            htmlFor="website"
+            htmlFor="userWebsite"
             className="has-text-white has-text-weight-light is-size-4"
           >
             Website:
 
             <div className="control">
               <input
-                id="website"
+                id="userWebsite"
                 type="text"
                 value={website}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {

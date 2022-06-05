@@ -12,10 +12,9 @@
   &__projects-info {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     background-color: rgba(0, 148, 126, 0.1);
-    gap: 55px;
     padding: 0 5px 15px;
     border-radius: 30px;
     margin-bottom: 30px;
