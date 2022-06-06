@@ -1,6 +1,7 @@
 import { AnyAction, Dispatch } from 'redux';
 import { getUser } from '../api/user';
 import { getRefreshToken } from '../tokenHandler';
+import { User, State } from '../types';
 
 enum ActionTypes {
   SetUser = 'user/set',
@@ -30,7 +31,7 @@ export const userSelectors = {
 export const userReducer = (state: User | null = null, action: AnyAction) => {
   switch (action.type) {
     case ActionTypes.SetUser:
-      return { ...action.value };
+      return action.value ? { ...action.value } : null;
     default:
       return state;
   }

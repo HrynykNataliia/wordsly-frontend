@@ -1,12 +1,18 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import { signIn } from '../../api/authorization';
 import { emailTest, passwordTest } from '../../RegExps';
+import { userActions } from '../../store/user';
 import { setTokens } from '../../tokenHandler';
 import './Authorization.scss';
 
 export const SignIn: React.FC = () => {
+  const handleError = useErrorHandler();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hasPasswordError, setPasswordError] = useState(false);
@@ -33,9 +39,15 @@ export const SignIn: React.FC = () => {
       return;
     }
 
-    const tokens = await signIn(email, password);
+    try {
+      const tokens = await signIn(email, password);
 
-    setTokens(tokens);
+      setTokens(tokens);
+      dispatch(userActions.loadUser());
+      navigate('/profile');
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const validateEmail = () => {

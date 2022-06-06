@@ -1,7 +1,9 @@
+import { Tokens, SignUpModel } from '../types';
+import { clientApi } from './apis';
 import { request } from './base';
 
 export const signIn = async (email: string, password: string): Promise<Tokens> => {
-  return request('https://192.168.0.104:7187/api/Auth/sign-in', {
+  return request(`${clientApi}/api/Auth/sign-in`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +16,7 @@ export const signIn = async (email: string, password: string): Promise<Tokens> =
 };
 
 export const signUp = async (signUpModel: SignUpModel): Promise<Tokens> => {
-  return request('https://192.168.0.104:7187/api/Auth/sign-up', {
+  return request(`${clientApi}/api/Auth/sign-up`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,7 +26,7 @@ export const signUp = async (signUpModel: SignUpModel): Promise<Tokens> => {
 };
 
 export const refresh = async (tokens: Tokens): Promise<Tokens> => {
-  return request('https://192.168.0.104:7187/api/Auth/refresh', {
+  return request(`${clientApi}/api/Auth/refresh`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
