@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useErrorHandler } from 'react-error-boundary';
 import {
   getProjectsInfo,
   getTranslatorInfo,
@@ -18,6 +19,7 @@ import { Header } from '../Header/Header';
 import '../UserProfile/UserProfile.scss';
 
 export const TranslatorProfile: React.FC = () => {
+  const handleError = useErrorHandler();
   const dispatch = useDispatch();
   const user = useSelector(userSelectors.getUser);
   const subjects = useSelector(subjectsSelectors.getSubjects);
@@ -43,18 +45,19 @@ export const TranslatorProfile: React.FC = () => {
   const [sourceLanguage, setSourceLanguage] = useState(0);
   const [outputLanguage, setOutputLanguage] = useState(0);
 
-  // eslint-disable-next-line no-console
-  console.log(sourceLanguage, selectedLanguages, outputLanguage);
-
   useEffect(() => {
     (async () => {
-      const newProjects = await getProjectsInfo();
-      const newTranslatorInfo = await getTranslatorInfo();
+      try {
+        const newProjects = await getProjectsInfo();
+        const newTranslatorInfo = await getTranslatorInfo();
 
-      setProjects(newProjects);
-      setTranslatorInfo(newTranslatorInfo);
-      setSelectedSubjects(newTranslatorInfo.subjectIds);
-      setSelectedLanguages(newTranslatorInfo.languagesPairs);
+        setProjects(newProjects);
+        setTranslatorInfo(newTranslatorInfo);
+        setSelectedSubjects(newTranslatorInfo.subjectIds);
+        setSelectedLanguages(newTranslatorInfo.languagesPairs);
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, []);
 
@@ -68,15 +71,23 @@ export const TranslatorProfile: React.FC = () => {
 
   const handleUpdate = async () => {
     if (user?.firstname !== firstname || user?.lastname !== lastname) {
-      const newUser = await updateName(firstname, lastname);
+      try {
+        const newUser = await updateName(firstname, lastname);
 
-      dispatch(userActions.setUser(newUser));
+        dispatch(userActions.setUser(newUser));
+      } catch (error) {
+        handleError(error);
+      }
     }
 
     if (user?.email !== email) {
-      const newUser = await updateEmail(email);
+      try {
+        const newUser = await updateEmail(email);
 
-      dispatch(userActions.setUser(newUser));
+        dispatch(userActions.setUser(newUser));
+      } catch (error) {
+        handleError(error);
+      }
     }
 
     if (password && newPassword) {
@@ -87,13 +98,15 @@ export const TranslatorProfile: React.FC = () => {
       }
     }
 
-    const {
-      subjectIds,
-      languagesPairs,
-    } = await updateTranslatorInfo(selectedSubjects, selectedLanguages);
+    try {
+      const newTranslatorInfo = await updateTranslatorInfo(selectedSubjects, selectedLanguages);
 
-    setSelectedSubjects(subjectIds);
-    setSelectedLanguages(languagesPairs);
+      setTranslatorInfo(newTranslatorInfo);
+      setSelectedSubjects(newTranslatorInfo.subjectIds);
+      setSelectedLanguages(newTranslatorInfo.languagesPairs);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const validateEmail = () => {
@@ -233,11 +246,6 @@ export const TranslatorProfile: React.FC = () => {
 
     setSelectedLanguages(newSelectedLanguages);
   };
-
-  // eslint-disable-next-line no-console
-  console.log('subjects:', subjects);
-  // eslint-disable-next-line no-console
-  console.log('languages', languages);
 
   return (
     <div>

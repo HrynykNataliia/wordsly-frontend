@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import { getProjects } from '../../api/projects';
 import { ProjectStatus } from '../../enums';
 import { Project } from '../../types';
@@ -8,14 +9,19 @@ import { Header } from '../Header/Header';
 import './UserProjects.scss';
 
 export const TranslatorProjects: React.FC = () => {
+  const handleError = useErrorHandler();
   const [statusProject, setStatusProject] = useState(ProjectStatus.Active);
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     (async () => {
-      const newProjects = await getProjects(statusProject);
+      try {
+        const newProjects = await getProjects(statusProject);
 
-      setProjects(newProjects);
+        setProjects(newProjects);
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, [statusProject]);
 

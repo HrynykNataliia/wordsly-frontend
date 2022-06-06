@@ -8,6 +8,7 @@ import {
 } from '@microsoft/signalr';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import { Header } from '../Header/Header';
 import './Quote.scss';
 import { quotaHub } from '../../api/apis';
@@ -19,6 +20,7 @@ import { getRefreshToken } from '../../tokenHandler';
 
 export const Quote: React.FC = () => {
   const navigate = useNavigate();
+  const handleError = useErrorHandler();
 
   const languages = useSelector(languagesSelectors.getLanguages);
   const subjects = useSelector(subjectsSelectors.getSubjects);
@@ -69,7 +71,11 @@ export const Quote: React.FC = () => {
     if (files) {
       const file = files[0];
 
-      await sendFileForTranslating(file, quoteId);
+      try {
+        await sendFileForTranslating(file, quoteId);
+      } catch (error) {
+        handleError(error);
+      }
     }
   };
 
@@ -134,16 +140,19 @@ export const Quote: React.FC = () => {
         && quote.price) {
       try {
         if (getRefreshToken()) {
-          await saveProject(quoteId, preferences);
-          sessionStorage.removeItem('quote');
-          navigate('/projects/my');
+          try {
+            await saveProject(quoteId, preferences);
+            sessionStorage.removeItem('quote');
+            navigate('/projects/my');
+          } catch (error) {
+            handleError(error);
+          }
         } else {
           sessionStorage.setItem('preferences', preferences);
           navigate('/sign-in');
         }
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
+      } catch (error) {
+        handleError(error);
       }
     }
   };

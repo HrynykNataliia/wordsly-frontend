@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import { downloadFile } from '../../api/file';
 import { getProjects } from '../../api/projects';
 import { ProjectStatus } from '../../enums';
@@ -10,6 +11,7 @@ import { PaymentModal } from '../PaymentModal/PaymentModal';
 import './UserProjects.scss';
 
 export const UserProjects: React.FC = () => {
+  const handleError = useErrorHandler();
   const [statusProject, setStatusProject] = useState(ProjectStatus.Unpaid);
   const [projects, setProjects] = useState<Project[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -17,9 +19,13 @@ export const UserProjects: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const newProjects = await getProjects(statusProject);
+      try {
+        const newProjects = await getProjects(statusProject);
 
-      setProjects(newProjects);
+        setProjects(newProjects);
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, [statusProject]);
 
@@ -44,9 +50,13 @@ export const UserProjects: React.FC = () => {
 
   const completePayment = async () => {
     setShowModal(false);
-    const newProjects = await getProjects(statusProject);
+    try {
+      const newProjects = await getProjects(statusProject);
 
-    setProjects(newProjects);
+      setProjects(newProjects);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const handleDownload = async (
@@ -57,7 +67,11 @@ export const UserProjects: React.FC = () => {
   ) => {
     event.nativeEvent.preventDefault();
 
-    await downloadFile(projectId, targetLangId, projectName);
+    try {
+      await downloadFile(projectId, targetLangId, projectName);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (

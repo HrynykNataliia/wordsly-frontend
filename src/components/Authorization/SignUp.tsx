@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import { signUp } from '../../api/authorization';
 import { emailTest, passwordTest } from '../../RegExps';
 import { userActions } from '../../store/user';
@@ -9,6 +10,7 @@ import { setTokens } from '../../tokenHandler';
 import './Authorization.scss';
 
 export const SignUp: React.FC = () => {
+  const handleError = useErrorHandler();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [firstname, setFirstname] = useState('');
@@ -58,17 +60,21 @@ export const SignUp: React.FC = () => {
       return;
     }
 
-    const tokens = await signUp({
-      email,
-      password,
-      firstname,
-      lastname,
-      accountType: +accountType,
-    });
+    try {
+      const tokens = await signUp({
+        email,
+        password,
+        firstname,
+        lastname,
+        accountType: +accountType,
+      });
 
-    setTokens(tokens);
-    dispatch(userActions.loadUser());
-    navigate('/profile');
+      setTokens(tokens);
+      dispatch(userActions.loadUser());
+      navigate('/profile');
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const validateEmail = () => {

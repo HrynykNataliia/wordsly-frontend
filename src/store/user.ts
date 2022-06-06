@@ -31,7 +31,7 @@ export const userSelectors = {
 export const userReducer = (state: User | null = null, action: AnyAction) => {
   switch (action.type) {
     case ActionTypes.SetUser:
-      return { ...action.value };
+      return action.value ? { ...action.value } : null;
     default:
       return state;
   }

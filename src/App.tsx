@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 import { getLanguages } from './api/language';
 import { getSubjects } from './api/subject';
 import './App.scss';
@@ -18,6 +19,7 @@ import { AccountType } from './enums';
 import { languagesActions } from './store/language';
 import { subjectsActions } from './store/subject';
 import { userActions, userSelectors } from './store/user';
+import { FallbackComponent } from './components/FallbackComponent/FallbackComponent';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -35,15 +37,25 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/sign-in" element={<SignIn />} />
-      <Route path="/sign-up" element={<SignUp />} />
-      <Route path="/profile" element={user?.accountType === AccountType.User ? <UserProfile /> : <TranslatorProfile />} />
-      <Route path="/quote" element={<Quote />} />
-      <Route path="/project/:id/:lang" element={<Project />} />
-      <Route path="/projects/my" element={user?.accountType === AccountType.User ? <UserProjects /> : <TranslatorProjects />} />
-      <Route path="/projects" element={<AvailableProjects />} />
-    </Routes>
+    <ErrorBoundary FallbackComponent={FallbackComponent}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/quote" element={<Quote />} />
+        {!user ? (
+          <>
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </>
+        ) : (
+          <>
+            <Route path="/profile" element={user?.accountType === AccountType.User ? <UserProfile /> : <TranslatorProfile />} />
+            <Route path="/project/:id/:lang" element={<Project />} />
+            <Route path="/projects/my" element={user?.accountType === AccountType.User ? <UserProjects /> : <TranslatorProjects />} />
+            <Route path="/projects" element={<AvailableProjects />} />
+          </>
+        )}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </ErrorBoundary>
   );
 };

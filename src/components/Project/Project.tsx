@@ -9,6 +9,7 @@ import {
 } from '@microsoft/signalr';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { useErrorHandler } from 'react-error-boundary';
 import {
   approveProject,
   getComments,
@@ -28,6 +29,7 @@ import { AccountType } from '../../enums';
 import { languagesSelectors } from '../../store/language';
 
 export const Project : React.FC = () => {
+  const handleError = useErrorHandler();
   const navigate = useNavigate();
   const user = useSelector(userSelectors.getUser);
   const languages = useSelector(languagesSelectors.getLanguages);
@@ -104,18 +106,19 @@ export const Project : React.FC = () => {
             return;
           }
 
-          const str = await getProjectString(id, langId, stringId);
+          try {
+            const str = await getProjectString(id, langId, stringId);
 
-          setStrings(oldStrings => oldStrings.map(s => {
-            if (s.id === str.id) {
-              return str;
-            }
+            setStrings(oldStrings => oldStrings.map(s => {
+              if (s.id === str.id) {
+                return str;
+              }
 
-            return s;
-          }));
-
-          // eslint-disable-next-line
-          console.log(str);
+              return s;
+            }));
+          } catch (error) {
+            handleError(error);
+          }
         });
       }
     })();
@@ -126,9 +129,13 @@ export const Project : React.FC = () => {
       if (commentsConnection) {
         await commentsConnection.start();
         commentsConnection.on('loadComments', async (stringId: number, langId: number) => {
-          const newComments = await getComments(stringId, langId);
+          try {
+            const newComments = await getComments(stringId, langId);
 
-          setComments(newComments);
+            setComments(newComments);
+          } catch (error) {
+            handleError(error);
+          }
         });
       }
     })();
@@ -195,17 +202,25 @@ export const Project : React.FC = () => {
   useEffect(() => {
     (async () => {
       if (selectedStringId && lang) {
-        const newComments = await getComments(selectedStringId, +lang);
+        try {
+          const newComments = await getComments(selectedStringId, +lang);
 
-        setComments(newComments);
+          setComments(newComments);
+        } catch (error) {
+          handleError(error);
+        }
       }
     })();
   }, [selectedStringId, lang]);
 
   const handleSendComment = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && comment && lang) {
-      await sendComment(selectedStringId, +lang, comment);
-      setComment('');
+      try {
+        await sendComment(selectedStringId, +lang, comment);
+        setComment('');
+      } catch (error) {
+        handleError(error);
+      }
     }
   };
 
@@ -254,8 +269,12 @@ export const Project : React.FC = () => {
 
   const handleApprove = async () => {
     if (id && lang) {
-      await approveProject(+id, +lang);
-      navigate('/projects/my');
+      try {
+        await approveProject(+id, +lang);
+        navigate('/projects/my');
+      } catch (error) {
+        handleError(error);
+      }
     }
   };
 
@@ -321,7 +340,14 @@ export const Project : React.FC = () => {
                   {str.originalString}
                 </p>
 
-                {!isCustomer && selectedStringId === str.id && !str.isEditing ? (
+                {/* eslint-disable-next-line */}
+                {str.isEditing && !str.translatedString ? (
+                  <p className="project__string has-text-white-ter">
+                    <span className="has-text-primary-dark">
+                      Is translating...
+                    </span>
+                  </p>
+                ) : (!isCustomer && selectedStringId === str.id ? (
                   <div className="project__string-control control">
                     <textarea
                       className={classNames('project__string-entry textarea has-fixed-size', { 'is-danger': !!translationError })}
@@ -331,7 +357,7 @@ export const Project : React.FC = () => {
                       onKeyPress={handleSendTranslation}
                     />
                     {translationError && (
-                      <p className="user-profile__error help is-danger">
+                      <p className="project__error help is-danger">
                         {translationError}
                       </p>
                     )}
@@ -344,7 +370,7 @@ export const Project : React.FC = () => {
                       </span>
                     )}
                   </p>
-                )}
+                ))}
               </div>
             </article>
           ))}

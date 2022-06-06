@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import { getAvailableProjects, joinProject } from '../../api/projects';
 import { getTranslatorInfo } from '../../api/user';
 import { languagesSelectors } from '../../store/language';
@@ -21,6 +22,7 @@ import './AvailableProjects.scss';
 
 export const AvailableProjects: React.FC = () => {
   const navigate = useNavigate();
+  const handleError = useErrorHandler();
 
   const subjects = useSelector(subjectsSelectors.getSubjects);
   const languages = useSelector(languagesSelectors.getLanguages);
@@ -35,34 +37,42 @@ export const AvailableProjects: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const newProjects = await getAvailableProjects(
-        selectedSubject,
-        selectedSourceLang,
-        selectedTargetLang,
-      );
+      try {
+        const newProjects = await getAvailableProjects(
+          selectedSubject,
+          selectedSourceLang,
+          selectedTargetLang,
+        );
 
-      setProjects(newProjects);
+        setProjects(newProjects);
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, [selectedSubject, selectedSourceLang, selectedTargetLang]);
 
   useEffect(() => {
     (async () => {
-      const newTranslatorInfo = await getTranslatorInfo();
+      try {
+        const newTranslatorInfo = await getTranslatorInfo();
 
-      setTranslatorInfo(newTranslatorInfo);
+        setTranslatorInfo(newTranslatorInfo);
 
-      const newSubjects = subjects
-        .filter(subject => newTranslatorInfo.subjectIds.includes(subject.id));
+        const newSubjects = subjects
+          .filter(subject => newTranslatorInfo.subjectIds.includes(subject.id));
 
-      setFilteredSubjects(newSubjects);
+        setFilteredSubjects(newSubjects);
 
-      const newSourceLang = languages
-        .filter(language => (
-          newTranslatorInfo.languagesPairs
-            .some(translatorLang => translatorLang.sourceLanguageId === language.id)
-        ));
+        const newSourceLang = languages
+          .filter(language => (
+            newTranslatorInfo.languagesPairs
+              .some(translatorLang => translatorLang.sourceLanguageId === language.id)
+          ));
 
-      setFilteredSourceLanguages(newSourceLang);
+        setFilteredSourceLanguages(newSourceLang);
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, [subjects, languages]);
 
@@ -111,9 +121,14 @@ export const AvailableProjects: React.FC = () => {
     targetLangId: number,
   ) => {
     event.nativeEvent.preventDefault();
-    await joinProject(projectId, targetLangId);
 
-    navigate(`/project/${projectId}/${targetLangId}`);
+    try {
+      await joinProject(projectId, targetLangId);
+
+      navigate(`/project/${projectId}/${targetLangId}`);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (

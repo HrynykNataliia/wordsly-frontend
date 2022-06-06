@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useErrorHandler } from 'react-error-boundary';
 import { saveProject } from '../../api/quota';
 import {
   getPersonalInfo,
@@ -17,6 +18,7 @@ import { Header } from '../Header/Header';
 import './UserProfile.scss';
 
 export const UserProfile: React.FC = () => {
+  const handleError = useErrorHandler();
   const dispatch = useDispatch();
   const user = useSelector(userSelectors.getUser);
 
@@ -58,13 +60,17 @@ export const UserProfile: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const newProjects = await getProjectsInfo();
-      const newInfo = await getPersonalInfo();
+      try {
+        const newProjects = await getProjectsInfo();
+        const newInfo = await getPersonalInfo();
 
-      setProjects(newProjects);
-      setPersonalInfo(newInfo);
-      setWebsite(newInfo.website);
-      setCompany(newInfo.company);
+        setProjects(newProjects);
+        setPersonalInfo(newInfo);
+        setWebsite(newInfo.website);
+        setCompany(newInfo.company);
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, []);
 
@@ -78,21 +84,33 @@ export const UserProfile: React.FC = () => {
 
   const handleUpdate = async () => {
     if (user?.firstname !== firstname || user?.lastname !== lastname) {
-      const newUser = await updateName(firstname, lastname);
+      try {
+        const newUser = await updateName(firstname, lastname);
 
-      dispatch(userActions.setUser(newUser));
+        dispatch(userActions.setUser(newUser));
+      } catch (error) {
+        handleError(error);
+      }
     }
 
     if (personalInfo?.website !== website || personalInfo.company !== company) {
-      const newPersonalInfo = await updatePersonalInfo(website, company);
+      try {
+        const newPersonalInfo = await updatePersonalInfo(website, company);
 
-      setPersonalInfo(newPersonalInfo);
+        setPersonalInfo(newPersonalInfo);
+      } catch (error) {
+        handleError(error);
+      }
     }
 
     if (user?.email !== email) {
-      const newUser = await updateEmail(email);
+      try {
+        const newUser = await updateEmail(email);
 
-      dispatch(userActions.setUser(newUser));
+        dispatch(userActions.setUser(newUser));
+      } catch (error) {
+        handleError(error);
+      }
     }
 
     if (password && newPassword) {

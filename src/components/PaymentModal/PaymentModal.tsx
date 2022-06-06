@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import * as dropin from 'braintree-web-drop-in';
+import { useErrorHandler } from 'react-error-boundary';
 import { payment } from '../../api/payment';
 
 type Props = {
@@ -16,6 +17,7 @@ export const PaymentModal: React.FC<Props> = ({
   projectId,
   onPaymentComplete,
 }) => {
+  const handleError = useErrorHandler();
   const [braintreeInstance, setBraintreeInstance] = useState<dropin.Dropin>();
 
   useEffect(() => {
@@ -25,8 +27,7 @@ export const PaymentModal: React.FC<Props> = ({
         container: '#braintree-drop-in-div',
       }, (error, instance) => {
         if (error) {
-          // eslint-disable-next-line no-console
-          console.error(error, projectId);
+          handleError(error);
         } else {
           setBraintreeInstance(instance);
         }
@@ -50,13 +51,16 @@ export const PaymentModal: React.FC<Props> = ({
       braintreeInstance.requestPaymentMethod(
         async (error, payload) => {
           if (error) {
-            // eslint-disable-next-line no-console
-            console.log(error);
+            handleError(error);
           } else {
             const paymentMethodNonce = payload.nonce;
 
-            await payment(projectId, paymentMethodNonce);
-            onPaymentComplete();
+            try {
+              await payment(projectId, paymentMethodNonce);
+              onPaymentComplete();
+            } catch (e) {
+              handleError(e);
+            }
           }
         },
       );
