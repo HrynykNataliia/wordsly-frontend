@@ -5,15 +5,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useMatch } from 'react-router-dom';
 import { AccountType } from '../../enums';
-import { userSelectors } from '../../store/user';
+import { userActions, userSelectors } from '../../store/user';
 import { clearLocalStorage } from '../../tokenHandler';
 import './Menu.scss';
 
 export const Menu: React.FC = () => {
   const match = useMatch('/');
+  const dispatch = useDispatch();
   const user = useSelector(userSelectors.getUser);
   const [isActive, setActive] = useState(false);
   const node = useRef<HTMLDivElement>(null);
@@ -34,6 +35,7 @@ export const Menu: React.FC = () => {
 
   const handleLogOut = () => {
     clearLocalStorage();
+    dispatch(userActions.setUser(null));
 
     if (match) {
       // eslint-disable-next-line no-restricted-globals
