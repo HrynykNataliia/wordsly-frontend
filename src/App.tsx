@@ -26,6 +26,7 @@ import { SubjectsPage } from './components/SubjectsPage/SubjectsPage';
 import { getRole } from './tokenHandler';
 import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
 import { UserPage } from './components/UserPage/UserPage';
+import { UsersPage } from './components/UsersPage/UsersPage';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,11 +50,12 @@ export const App: React.FC = () => {
           <Route path="/" element={<IncomePage />} />
           <Route path="/languages" element={<LanguagesPage />} />
           <Route path="/subjects" element={<SubjectsPage />} />
-          <Route path="/users" element={<IncomePage />} />
+          <Route path="/users" element={<UsersPage accountType={AccountType.User} />} />
           <Route path="/user/:id" element={<UserPage isTranslator={false} />} />
-          <Route path="/translators" element={<IncomePage />} />
+          <Route path="/translators" element={<UsersPage accountType={AccountType.Translator} />} />
           <Route path="/translator/:id" element={<UserPage isTranslator />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects" element={<IncomePage />} />
           <Route path="/project/:id/:lang" element={<Project />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

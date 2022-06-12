@@ -135,3 +135,12 @@ export interface Pricing {
 
 export interface Translator extends User, TranslatorInfo {
 }
+
+export interface UserView {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  projectCount: number;
+  totalMoney: number;
+}
