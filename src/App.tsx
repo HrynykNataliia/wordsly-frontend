@@ -23,6 +23,7 @@ import { FallbackComponent } from './components/FallbackComponent/FallbackCompon
 import { IncomePage } from './components/IncomePage/IncomePage';
 import { LanguagesPage } from './components/LanguagesPage/LanguagesPage';
 import { SubjectsPage } from './components/SubjectsPage/SubjectsPage';
+import { getRole } from './tokenHandler';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export const App: React.FC = () => {
     })();
   }, [user?.email]);
 
-  if (user?.accountType === AccountType.Admin) {
+  if (getRole() === AccountType.Admin.toString()) {
     return (
       <ErrorBoundary FallbackComponent={FallbackComponent}>
         <Routes>
