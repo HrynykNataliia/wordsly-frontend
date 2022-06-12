@@ -1,11 +1,48 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { subjectsSelectors } from '../../store/subject';
+import React, { useState } from 'react';
+import { useErrorHandler } from 'react-error-boundary';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSubject, deleteSubject, getSubjects } from '../../api/subject';
+import { subjectsActions, subjectsSelectors } from '../../store/subject';
 import { Header } from '../Header/Header';
 import './SubjectsPage.scss';
 
 export const SubjectsPage: React.FC = () => {
+  const handleError = useErrorHandler();
+  const dispatch = useDispatch();
   const subjects = useSelector(subjectsSelectors.getSubjects);
+  const [newSubject, setSubject] = useState('');
+
+  const handleDelete = async (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    subjectId: number,
+  ) => {
+    event.preventDefault();
+
+    try {
+      await deleteSubject(subjectId);
+      const newSubjects = await getSubjects();
+
+      dispatch(subjectsActions.setSubjects(newSubjects));
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const handleAdd = async () => {
+    const isNotExist = subjects.every(subject => subject.subject !== newSubject);
+
+    if (newSubject && isNotExist) {
+      try {
+        await addSubject(newSubject);
+        const newSubjects = await getSubjects();
+
+        dispatch(subjectsActions.setSubjects(newSubjects));
+        setSubject('');
+      } catch (error) {
+        handleError(error);
+      }
+    }
+  };
 
   return (
     <div>
@@ -32,7 +69,7 @@ export const SubjectsPage: React.FC = () => {
                       <a
                         href="/"
                         className="subjects__table-button"
-                        onClick={(() => {})}
+                        onClick={((event) => handleDelete(event, subject.id))}
                       >
                         Delete
                       </a>
@@ -49,14 +86,14 @@ export const SubjectsPage: React.FC = () => {
             <input
               type="text"
               placeholder="Enter a new subject"
-              value=""
-              onChange={() => {}}
+              value={newSubject}
+              onChange={(event) => setSubject(event.target.value)}
               className="subjects__input input is-rounded has-text-weight-light is-medium"
             />
 
             <button
               type="button"
-              onClick={() => {}}
+              onClick={handleAdd}
               className="subjects__add button is-rounded is-medium"
             >
               Add

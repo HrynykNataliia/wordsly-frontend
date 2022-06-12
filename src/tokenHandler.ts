@@ -55,8 +55,8 @@ export const getAuthorizationToken = async (): Promise<string | null> => {
 
 export const setRole = (role: string) => {
   localStorage.setItem('role', role);
-}
+};
 
 export const getRole = (): string => {
   return localStorage.getItem('role') || '';
-}
+};
