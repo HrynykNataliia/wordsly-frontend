@@ -20,6 +20,9 @@ import { languagesActions } from './store/language';
 import { subjectsActions } from './store/subject';
 import { userActions, userSelectors } from './store/user';
 import { FallbackComponent } from './components/FallbackComponent/FallbackComponent';
+import { IncomePage } from './components/IncomePage/IncomePage';
+import { LanguagesPage } from './components/LanguagesPage/LanguagesPage';
+import { SubjectsPage } from './components/SubjectsPage/SubjectsPage';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,20 +37,20 @@ export const App: React.FC = () => {
       dispatch(languagesActions.setLanguages(newLanguages));
       dispatch(userActions.loadUser());
     })();
-  }, []);
+  }, [user?.email]);
 
-  if (user?.accountType == AccountType.Admin) {
+  if (user?.accountType === AccountType.Admin) {
     return (
       <ErrorBoundary FallbackComponent={FallbackComponent}>
         <Routes>
-          <Route path="/" element={<Income />} />
-          <Route path="/languages" element={<Income />} />
-          <Route path="/subjects" element={<Income />} />
-          <Route path="/users" element={<Income />} />
-          <Route path="/user/:id" element={<Income />} />
-          <Route path="/translators" element={<Income />} />
-          <Route path="/translator/:id" element={<Income />} />
-          <Route path="/projects" element={<AdminProjects />} />
+          <Route path="/" element={<IncomePage />} />
+          <Route path="/languages" element={<LanguagesPage />} />
+          <Route path="/subjects" element={<SubjectsPage />} />
+          <Route path="/users" element={<IncomePage />} />
+          <Route path="/user/:id" element={<IncomePage />} />
+          <Route path="/translators" element={<IncomePage />} />
+          <Route path="/translator/:id" element={<IncomePage />} />
+          <Route path="/projects" element={<IncomePage />} />
           <Route path="/project/:id/:lang" element={<Project />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -5,3 +5,7 @@ import { request } from './baseWithAuthorization';
 export const getSubjects = async (): Promise<Subject[]> => {
   return request(`${adminApi}/api/Subjects`);
 };
+
+export const deleteSubject = (subjectId: number): Promise<void> => {
+  return request(`${adminApi}/api/Subjects/${subjectId}`);
+};

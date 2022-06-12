@@ -119,3 +119,16 @@ export interface Project {
   startDate: string;
   endDate: string;
 }
+
+export interface Income {
+  totalIncome: number;
+  income: number;
+  totalPayments: number;
+}
+
+export interface Pricing {
+  pricePerUnitInput: number;
+  pricePerUnitOutput: number;
+  sourceLanguageId: number;
+  targetLanguageId: number;
+}
