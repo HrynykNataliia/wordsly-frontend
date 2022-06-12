@@ -1,9 +1,11 @@
+import { AccountType } from '../enums';
 import {
   LanguagePair,
   PersonalInfo,
   TranslatorInfo,
   User,
   UserProjects,
+  UserView,
 } from '../types';
 import { adminApi } from './apis';
 import { request } from './baseWithAuthorization';
@@ -89,4 +91,8 @@ export const updateTranslatorInfo = (
       languagesPairs,
     }),
   });
+};
+
+export const getUsers = (accountType: AccountType): Promise<UserView[]> => {
+  return request(`${adminApi}/api/Users/all?accountType=${accountType}`);
 };

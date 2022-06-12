@@ -132,3 +132,12 @@ export interface Pricing {
   sourceLanguageId: number;
   targetLanguageId: number;
 }
+
+export interface UserView {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  projectCount: number;
+  totalMoney: number;
+}
