@@ -56,7 +56,9 @@ export const UsersPage: React.FC<Props> = ({ accountType }) => {
                 <td>{user.totalMoney}</td>
                 <td>
                   <Link
-                    to="/"
+                    to={accountType === AccountType.User
+                      ? `/user/${user.id}`
+                      : `/translator/${user.id}`}
                     className="users__table-button"
                   >
                     View
