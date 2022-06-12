@@ -132,3 +132,6 @@ export interface Pricing {
   sourceLanguageId: number;
   targetLanguageId: number;
 }
+
+export interface Translator extends User, TranslatorInfo {
+}

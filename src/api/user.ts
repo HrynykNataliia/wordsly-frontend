@@ -1,6 +1,7 @@
 import {
   LanguagePair,
   PersonalInfo,
+  Translator,
   TranslatorInfo,
   User,
   UserProjects,
@@ -10,6 +11,14 @@ import { request } from './baseWithAuthorization';
 
 export const getUser = (): Promise<User> => {
   return request(`${adminApi}/api/Users`);
+};
+
+export const getUserById = (userId: number): Promise<User> => {
+  return request(`${adminApi}/api/Users/${userId}`);
+};
+
+export const getTranslatorById = (userId: number): Promise<Translator> => {
+  return request(`${adminApi}/api/Users/translator/${userId}`);
 };
 
 export const getProjectsInfo = (): Promise<UserProjects> => {
