@@ -1,9 +1,11 @@
-# React TypeScript Starter Pack
+# Wordsly
 
-To use this template click `Use this template`
-
-### Available Scripts
-
-`Deploy` - available to deploy your application to gh-pages
-
-`SCSS Preprocessor` - available to write your styles with modern style language
+## Demo link
+[DEMO LINK](https://hrynyknataliia.github.io/wordsly-frontend/)
+## Used technologies:
+React, React router, Redux, TypeScript, Bulma
+## Get the initial code
+1. `Clone` the repo
+2. Run `npm install` to install the dependencies
+3. Run `npm start` to run a development server at `http://localhost:3000`
+  (If you need to stop the server, press `ctrl + c` in the terminal window)
