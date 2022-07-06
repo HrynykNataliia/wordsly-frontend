@@ -20,6 +20,13 @@ import { languagesActions } from './store/language';
 import { subjectsActions } from './store/subject';
 import { userActions, userSelectors } from './store/user';
 import { FallbackComponent } from './components/FallbackComponent/FallbackComponent';
+import { IncomePage } from './components/IncomePage/IncomePage';
+import { LanguagesPage } from './components/LanguagesPage/LanguagesPage';
+import { SubjectsPage } from './components/SubjectsPage/SubjectsPage';
+import { getRole } from './tokenHandler';
+import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
+import { UserPage } from './components/UserPage/UserPage';
+import { UsersPage } from './components/UsersPage/UsersPage';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,23 +41,43 @@ export const App: React.FC = () => {
       dispatch(languagesActions.setLanguages(newLanguages));
       dispatch(userActions.loadUser());
     })();
-  }, []);
+  }, [user?.email]);
+
+  if (getRole() === AccountType.Admin.toString()) {
+    return (
+      <ErrorBoundary FallbackComponent={FallbackComponent}>
+        <Routes>
+          <Route path="/" element={<IncomePage />} />
+          <Route path="/languages" element={<LanguagesPage />} />
+          <Route path="/subjects" element={<SubjectsPage />} />
+          <Route path="/users" element={<UsersPage accountType={AccountType.User} />} />
+          <Route path="/user/:id" element={<UserPage isTranslator={false} />} />
+          <Route path="/translators" element={<UsersPage accountType={AccountType.Translator} />} />
+          <Route path="/translator/:id" element={<UserPage isTranslator />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects" element={<IncomePage />} />
+          <Route path="/project/:id/:lang" element={<Project />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </ErrorBoundary>
+    );
+  }
 
   return (
     <ErrorBoundary FallbackComponent={FallbackComponent}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/quote" element={<Quote />} />
-        {!user ? (
+        {!getRole() ? (
           <>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
           </>
         ) : (
           <>
-            <Route path="/profile" element={user?.accountType === AccountType.User ? <UserProfile /> : <TranslatorProfile />} />
+            <Route path="/profile" element={getRole() === AccountType.User.toString() ? <UserProfile /> : <TranslatorProfile />} />
             <Route path="/project/:id/:lang" element={<Project />} />
-            <Route path="/projects/my" element={user?.accountType === AccountType.User ? <UserProjects /> : <TranslatorProjects />} />
+            <Route path="/projects/my" element={getRole() === AccountType.User.toString() ? <UserProjects /> : <TranslatorProjects />} />
             <Route path="/projects" element={<AvailableProjects />} />
           </>
         )}
